@@ -31,7 +31,7 @@ import basecamera.module.lib.listener.JCameraListener;
 import basecamera.module.lib.listener.TypeListener;
 import basecamera.module.lib.state.CameraMachine;
 import basecamera.module.lib.util.FileUtil;
-import basecamera.module.lib.util.LogUtil;
+import basecamera.module.lib.util.CameraLog;
 import basecamera.module.lib.util.ScreenUtils;
 import basecamera.module.lib.view.CameraView;
 
@@ -144,7 +144,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
         layout_width = ScreenUtils.getScreenWidth(mContext);
         //缩放梯度
         zoomGradient = (int) (layout_width / 16f);
-        LogUtil.i("zoom = " + zoomGradient);
+        CameraLog.i("zoom = " + zoomGradient);
         machine = new CameraMachine(getContext(), this, this);
     }
 
@@ -229,7 +229,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
 
             @Override
             public void recordZoom(float zoom) {
-                LogUtil.e("recordZoom");
+                CameraLog.e("recordZoom");
                 machine.zoom(zoom, CameraInterface.TYPE_RECORDER);
             }
 
@@ -249,7 +249,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
 
             @Override
             public void confirm() {
-                LogUtil.e(machine.getState() + "=====>");
+                CameraLog.e(machine.getState() + "=====>");
                 machine.confirm();
             }
         });
@@ -297,7 +297,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     //生命周期onResume
     public void onResume() {
-        LogUtil.e("JCameraView onResume");
+        CameraLog.e("JCameraView onResume");
         resetState(TYPE_DEFAULT); //重置状态
         CameraInterface.getInstance().registerSensorManager(mContext);
         CameraInterface.getInstance().setSwitchView(mSwitchCamera, mFlashLamp);
@@ -310,7 +310,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     //生命周期onPause
     public void onPause() {
-        LogUtil.e("JCameraView onPause");
+        CameraLog.e("JCameraView onPause");
         stopVideo();
         resetState(TYPE_PICTURE);
         CameraInterface.getInstance().isPreview(false);
@@ -320,7 +320,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
     //SurfaceView生命周期
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        LogUtil.i("JCameraView SurfaceCreated");
+        CameraLog.i("JCameraView SurfaceCreated");
         new Thread() {
             @Override
             public void run() {
@@ -335,7 +335,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        LogUtil.e("JCameraView SurfaceDestroyed");
+        CameraLog.e("JCameraView SurfaceDestroyed");
         CameraInterface.getInstance().doDestroyCamera();
     }
 
@@ -493,7 +493,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
             case TYPE_DEFAULT:
                 break;
         }
-        LogUtil.e("confirmState===>" + type);
+        CameraLog.e("confirmState===>" + type);
         mCaptureLayout.resetCaptureLayout();
     }
 
@@ -510,7 +510,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
 //        mCaptureLayout.startAlphaAnimation();
 //        mCaptureLayout.startTypeBtnAnimator();
 //mCaptureLayout.resetCaptureLayout();
-//        LogUtil.e("=====获取了bitmap");
+//        CameraLog.e("=====获取了bitmap");
 //        machine.confirm();
         if (jCameraLisenter != null) {
             jCameraLisenter.captureSuccess(captureBitmap);
@@ -584,7 +584,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     @Override
     public void startPreviewCallback() {
-        LogUtil.i("startPreviewCallback");
+        CameraLog.i("startPreviewCallback");
         handlerFoucs(mFoucsView.getWidth() / 2, mFoucsView.getHeight() / 2);
     }
 

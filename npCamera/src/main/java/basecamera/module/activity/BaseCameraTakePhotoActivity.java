@@ -31,7 +31,7 @@ import basecamera.module.lib.listener.ClickListener;
 import basecamera.module.lib.listener.ErrorListener;
 import basecamera.module.lib.listener.JCameraListener;
 import basecamera.module.lib.util.FileUtil;
-import basecamera.module.lib.util.LogUtil;
+import basecamera.module.lib.util.CameraLog;
 
 public class BaseCameraTakePhotoActivity extends Activity {
     private JCameraView jCameraView;
@@ -82,7 +82,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
                 String path = FileUtil.saveBitmap(BaseCameraCfg.photoPath, jpegName, bitmap);
                 //获取图片bitmap
                 isTakePhotoIng = false;
-                LogUtil.e("path===>" + path);
+                CameraLog.e("path===>" + path);
                 sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(path))));
                 if (!TextUtils.isEmpty(path)) {
                     CameraSateHelper.getInstance().notifySuccess(path);

@@ -13,7 +13,7 @@ import static basecamera.module.lib.BuildConfig.DEBUG;
  * 描    述：
  * =====================================
  */
-public class LogUtil {
+public class CameraLog {
 
     private static final String DEFAULT_TAG = "CJT";
 
