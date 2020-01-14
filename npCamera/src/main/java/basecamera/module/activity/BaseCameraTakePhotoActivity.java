@@ -38,6 +38,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
 
     private boolean isTakePhotoIng = false;
 
+    public static boolean isStartUI = false;
 
     //进度框
     private QMUITipDialog.Builder builder;
@@ -46,6 +47,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isStartUI = true;
         //去掉标题栏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        //全屏
@@ -135,12 +137,14 @@ public class BaseCameraTakePhotoActivity extends Activity {
     protected void onResume() {
         super.onResume();
         jCameraView.onResume();
+        isStartUI = true;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         jCameraView.onPause();
+        isStartUI = false;
     }
 
 
@@ -193,6 +197,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
         if (loadingDialog != null) {
             loadingDialog.dismiss();
         }
+        isStartUI = false;
         initReceiver(false);
         sendExitCamera();
         isTakePhotoIng = false;
@@ -222,6 +227,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
 
     //退出相机模式
     public void sendExitCamera() {
+        isStartUI = false;
         sendBroadcast(new Intent(BaseCameraCfg.exitTakePhotoForDev));
     }
 

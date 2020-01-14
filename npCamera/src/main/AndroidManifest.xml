@@ -2,7 +2,11 @@
     package="basecamera.module.lib">
 
     <application android:theme="@style/BaseCamera_AppTheme">>
-        <activity android:name="basecamera.module.activity.BaseCameraTakePhotoActivity" />
-        <activity android:name="basecamera.module.activity.BaseCameraGalleryActivity" />
+        <activity
+            android:name="basecamera.module.activity.BaseCameraTakePhotoActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="basecamera.module.activity.BaseCameraGalleryActivity"
+            android:launchMode="singleTask" />
     </application>
 </manifest>
