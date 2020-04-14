@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="basecamera.module.lib">
 
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    
     <application android:theme="@style/BaseCamera_AppTheme">>
         <activity
             android:name="basecamera.module.activity.BaseCameraTakePhotoActivity"

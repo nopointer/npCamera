@@ -29,13 +29,13 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:${var.supportLibraryVersion}"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    //ycBle Module 集成的蓝牙库 如果需要ota的话 就要引用dfu
-    //    implementation 'com.github.nopointer:ycBle:beta_0.0.45'
-    api 'no.nordicsemi.android.support.v18:scanner:1.4.0'
-    implementation 'com.google.code.gson:gson:2.8.1'
     implementation project(':npCamera')
+    //遥控相机
+//    implementation 'com.github.nopointer:npCamera:1.0.2'
+
+    //相机里面依赖的库
+    implementation 'me.panpf:sketch:2.6.0'
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    implementation 'com.qmuiteam:qmui:1.1.7'
+
 }

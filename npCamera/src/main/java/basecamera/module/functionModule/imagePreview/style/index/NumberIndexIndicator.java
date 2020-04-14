@@ -29,6 +29,7 @@ public class NumberIndexIndicator implements IIndexIndicator {
         indexLp.topMargin = 30;
 
         numberIndicator = new NumberIndicator(parent.getContext());
+        numberIndicator.setTextColor(0xFF969696);
         numberIndicator.setLayoutParams(indexLp);
 
         parent.addView(numberIndicator);

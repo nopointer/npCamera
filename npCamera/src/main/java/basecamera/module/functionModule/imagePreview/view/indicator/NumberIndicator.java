@@ -61,6 +61,7 @@ public class NumberIndicator extends TextView {
         setTextSize(18);
     }
 
+
     public void setViewPager(ViewPager viewPager) {
         if (viewPager != null && viewPager.getAdapter() != null) {
             mViewPager = viewPager;

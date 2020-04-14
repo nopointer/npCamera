@@ -24,9 +24,6 @@ public class GalleryAdapter extends BaseAdapter {
     public static GalleryHolder holder;
 
 
-
-
-
     /**
      * @param values
      */

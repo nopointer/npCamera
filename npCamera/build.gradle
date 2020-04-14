@@ -10,8 +10,8 @@ android {
     defaultConfig {
         minSdkVersion var.minSdkVersion
 
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.0.3"
 
     }
 
@@ -31,17 +31,14 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:${var.supportLibraryVersion}"
     implementation "com.android.support:design:${var.supportLibraryVersion}"
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
+    //QMUI腾讯UI框架
+    implementation 'com.qmuiteam:qmui:1.1.7'
     //多功能图片展示控件 私有引用，方便独立module
     implementation 'me.panpf:sketch:2.6.0'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
-    //QMUI腾讯UI框架
-    implementation 'com.qmuiteam:qmui:1.1.7'
 
-    //预览图片需要的lib
+
+    //预览图片需要的lib（暂时没用上）
     implementation 'com.github.filippudak.progresspieview:library:1.0.4'
 }
