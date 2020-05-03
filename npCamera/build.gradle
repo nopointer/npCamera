@@ -10,8 +10,8 @@ android {
     defaultConfig {
         minSdkVersion var.minSdkVersion
 
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 5
+        versionName "1.0.4"
 
     }
 
@@ -36,7 +36,6 @@ dependencies {
     //多功能图片展示控件 私有引用，方便独立module
     implementation 'me.panpf:sketch:2.6.0'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-
 
 
     //预览图片需要的lib（暂时没用上）
