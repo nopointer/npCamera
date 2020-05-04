@@ -15,12 +15,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 
 import basecamera.module.lib.listener.CaptureListener;
 import basecamera.module.lib.listener.ClickListener;
 import basecamera.module.lib.listener.ReturnListener;
 import basecamera.module.lib.listener.TypeListener;
+import basecamera.module.utils.DisplayHelperUtils;
 
 /**
  * =====================================
@@ -65,7 +65,7 @@ public class CaptureLayout extends FrameLayout {
     private int iconLeft = 0;
     private int iconRight = 0;
 
-    private int buttonWH =0;
+    private int buttonWH = 0;
 
     private boolean isFirst = true;
 
@@ -92,7 +92,7 @@ public class CaptureLayout extends FrameLayout {
         button_size = (int) (layout_width / 4.5f);
         layout_height = button_size + (button_size / 5) * 2 + 100;
 
-        buttonWH = QMUIDisplayHelper.dp2px(getContext(),44);
+        buttonWH = DisplayHelperUtils.dp2px(getContext(), 44);
 
         initView();
         initEvent();
@@ -247,7 +247,7 @@ public class CaptureLayout extends FrameLayout {
         });
         //左边自定义按钮
         iv_custom_left = new ImageView(getContext());
-        LayoutParams iv_custom_param_left = new LayoutParams(buttonWH,buttonWH);
+        LayoutParams iv_custom_param_left = new LayoutParams(buttonWH, buttonWH);
         iv_custom_param_left.gravity = Gravity.CENTER_VERTICAL;
         iv_custom_param_left.setMargins(layout_width / 7, 0, 0, 0);
         iv_custom_left.setLayoutParams(iv_custom_param_left);
@@ -369,4 +369,6 @@ public class CaptureLayout extends FrameLayout {
     public void setRightClickListener(ClickListener rightClickListener) {
         this.rightClickListener = rightClickListener;
     }
+
+
 }

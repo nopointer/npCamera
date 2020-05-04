@@ -17,6 +17,7 @@
             android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:clickable="false"
+            android:tint="@color/black"
             android:visibility="gone" />
 
         <TextView
@@ -46,7 +47,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:textColor="#FFF"
+            android:textColor="#000"
             android:textSize="18sp" />
     </RelativeLayout>
 

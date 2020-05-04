@@ -10,14 +10,15 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -32,6 +33,7 @@ import basecamera.module.lib.listener.ErrorListener;
 import basecamera.module.lib.listener.JCameraListener;
 import basecamera.module.lib.util.FileUtil;
 import basecamera.module.lib.util.CameraLog;
+import basecamera.module.views.LoadingView;
 
 public class BaseCameraTakePhotoActivity extends Activity {
     private JCameraView jCameraView;
@@ -40,9 +42,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
 
     public static boolean isStartUI = false;
 
-    //进度框
-    private QMUITipDialog.Builder builder;
-    private QMUITipDialog loadingDialog;
+    private LoadingView loadView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,9 @@ public class BaseCameraTakePhotoActivity extends Activity {
 
         setContentView(R.layout.basecamera_activity_camera);
         jCameraView = findViewById(R.id.jcameraview);
+
+        loadView = findViewById(R.id.loadView);
+
         //设置视频保存路径
         jCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "JCamera");
         jCameraView.setFeatures(JCameraView.BUTTON_STATE_ONLY_CAPTURE);
@@ -91,11 +94,14 @@ public class BaseCameraTakePhotoActivity extends Activity {
                 } else {
                     CameraSateHelper.getInstance().notifyFailure(1);
                 }
-                if (loadingDialog != null) {
-                    if (loadingDialog.isShowing()) {
-                        loadingDialog.cancel();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadView != null) {
+                            loadView.setVisibility(View.GONE);
+                        }
                     }
-                }
+                });
             }
 
             @Override
@@ -114,6 +120,14 @@ public class BaseCameraTakePhotoActivity extends Activity {
             }
         });
 
+        jCameraView.setOnCameraSomeStateListener(new JCameraView.OnCameraSomeStateListener() {
+            @Override
+            public void onBeforeTakePhoto() {
+                Log.e("fuck,camera", "开始拍照");
+//                sendBroadcast(new Intent(loadingAction));
+                sendBroadcast(new Intent(BaseCameraCfg.takePhotoAction));
+            }
+        });
         jCameraView.setLeftClickListener(new ClickListener() {
             @Override
             public void onClick() {
@@ -173,7 +187,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
                 case BaseCameraCfg.takePhotoAction:
                     if (!isTakePhotoIng) {
                         isTakePhotoIng = true;
-                        showLoadingDialog("");
+                        showLoading();
                         jCameraView.takePhoto();
                     }
                     break;
@@ -194,8 +208,8 @@ public class BaseCameraTakePhotoActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (loadingDialog != null) {
-            loadingDialog.dismiss();
+        if (loadView != null) {
+            loadView.setVisibility(View.GONE);
         }
         isStartUI = false;
         initReceiver(false);
@@ -206,16 +220,13 @@ public class BaseCameraTakePhotoActivity extends Activity {
     /**
      * 显示加载框
      */
-    public void showLoadingDialog(final String argMessage) {
+    public void showLoading() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    if (loadingDialog == null || !loadingDialog.isShowing()) {
-                        builder = new QMUITipDialog.Builder(BaseCameraTakePhotoActivity.this).setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING);
-                        loadingDialog = builder.setTipWord(argMessage).create();
-                        loadingDialog.show();
-                        loadingDialog.setCanceledOnTouchOutside(false);
+                    if (loadView != null) {
+                        loadView.setVisibility(View.VISIBLE);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

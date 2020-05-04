@@ -114,6 +114,8 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
     private boolean firstTouch = true;
     private float firstTouchLength = 0;
 
+    private OnCameraSomeStateListener onCameraSomeStateListener;
+
     public JCameraView(Context context) {
         this(context, null);
     }
@@ -199,6 +201,9 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
             public void takePictures() {
 //                mSwitchCamera.setVisibility(INVISIBLE);
 //                mFlashLamp.setVisibility(INVISIBLE);
+                if (onCameraSomeStateListener != null) {
+                    onCameraSomeStateListener.onBeforeTakePhoto();
+                }
                 machine.capture();
             }
 
@@ -517,7 +522,6 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
         }
 
 
-
         machine.setState(machine.getBorrowPictureState());
 
         machine.cancle(mVideoView.getHolder(), screenProp);
@@ -640,5 +644,13 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
                 machine.flash(Camera.Parameters.FLASH_MODE_OFF);
                 break;
         }
+    }
+
+    public void setOnCameraSomeStateListener(OnCameraSomeStateListener onCameraSomeStateListener) {
+        this.onCameraSomeStateListener = onCameraSomeStateListener;
+    }
+
+    public interface OnCameraSomeStateListener {
+        void onBeforeTakePhoto();
     }
 }

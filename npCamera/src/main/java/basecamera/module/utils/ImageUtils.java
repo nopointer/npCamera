@@ -248,7 +248,6 @@ public class ImageUtils {
                 new String[]{"100000"}, //查询条件中问号对应的值
                 MediaStore.Images.Media.DATE_ADDED + " desc");
 
-        cursor.moveToFirst();
         //文件夹照片
         Map<String, Album> galleries = new HashMap<String, Album>();
         while (cursor.moveToNext()) {

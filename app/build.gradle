@@ -36,6 +36,6 @@ dependencies {
     //相机里面依赖的库
     implementation 'me.panpf:sketch:2.6.0'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    implementation 'com.qmuiteam:qmui:1.1.7'
+//    implementation 'com.qmuiteam:qmui:1.4.4'
 
 }

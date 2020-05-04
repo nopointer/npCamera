@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +41,8 @@ public class BaseCameraGalleryActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //沉浸式
-        QMUIStatusBarHelper.translucent(this);
-        QMUIStatusBarHelper.setStatusBarLightMode(this);
+        StatusBarHelperUtils.translucent(this);
+        StatusBarHelperUtils.setStatusBarLightMode(this);
         setContentView(R.layout.basecamera_activity_album);
         tab = findViewById(R.id.indicator);
         pager = findViewById(R.id.pager);

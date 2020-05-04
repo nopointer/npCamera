@@ -2,6 +2,7 @@ package demo.npCamera;
 
 import android.app.Application;
 
+import basecamera.module.cfg.BaseCameraCfg;
 
 
 public class MainApplication extends Application {
@@ -14,6 +15,8 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mainApplication = this;
+
+        BaseCameraCfg.photoPath="DCIM/DiriFit";
 
 
     }

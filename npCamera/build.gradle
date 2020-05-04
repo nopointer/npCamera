@@ -10,8 +10,8 @@ android {
     defaultConfig {
         minSdkVersion var.minSdkVersion
 
-        versionCode 5
-        versionName "1.0.4"
+        versionCode 7
+        versionName "1.0.6"
 
     }
 
@@ -31,8 +31,6 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:${var.supportLibraryVersion}"
     implementation "com.android.support:design:${var.supportLibraryVersion}"
 
-    //QMUI腾讯UI框架
-    implementation 'com.qmuiteam:qmui:1.1.7'
     //多功能图片展示控件 私有引用，方便独立module
     implementation 'me.panpf:sketch:2.6.0'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'

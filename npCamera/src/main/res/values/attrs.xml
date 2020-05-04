@@ -101,4 +101,12 @@
             <flag name="end" value="0x00800005" />
         </attr>
     </declare-styleable>
+
+    <!--************ Loading ***********-->
+    <declare-styleable name="LoadingView">
+        <attr name="qmui_loading_view_size" format="dimension"/>
+        <attr name="android:color"/>
+        <attr name="LoadingStyle" format="reference"/>
+    </declare-styleable>
+
 </resources>
