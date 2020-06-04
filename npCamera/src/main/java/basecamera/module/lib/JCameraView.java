@@ -34,6 +34,7 @@ import basecamera.module.lib.util.FileUtil;
 import basecamera.module.lib.util.CameraLog;
 import basecamera.module.lib.util.ScreenUtils;
 import basecamera.module.lib.view.CameraView;
+import basecamera.module.utils.PreferencesUtils;
 
 
 /**
@@ -158,13 +159,17 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
         mSwitchCamera = (ImageView) view.findViewById(R.id.image_switch);
         mSwitchCamera.setImageResource(iconSrc);
         mFlashLamp = (ImageView) view.findViewById(R.id.image_flash);
+
+        type_flash = PreferencesUtils.getInstance().getInt(getContext(), "flash", TYPE_FLASH_OFF);
         setFlashRes();
         mFlashLamp.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 type_flash++;
-                if (type_flash > 0x023)
+                if (type_flash > 0x023) {
                     type_flash = TYPE_FLASH_AUTO;
+                }
+                PreferencesUtils.getInstance().putInt(getContext(), "flash", type_flash);
                 setFlashRes();
             }
         });
