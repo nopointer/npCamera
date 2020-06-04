@@ -272,8 +272,9 @@ public class CameraInterface implements Camera.PreviewCallback {
     }
 
     public void setFlashMode(String flashMode) {
-        if (mCamera == null)
+        if (mCamera == null) {
             return;
+        }
         Camera.Parameters params = mCamera.getParameters();
         params.setFlashMode(flashMode);
         mCamera.setParameters(params);

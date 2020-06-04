@@ -303,6 +303,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
     @Override
     public void cameraHasOpened() {
         CameraInterface.getInstance().doStartPreview(mVideoView.getHolder(), screenProp);
+        setFlashRes();
     }
 
     //生命周期onResume
