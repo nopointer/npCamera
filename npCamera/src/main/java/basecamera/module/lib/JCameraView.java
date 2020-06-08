@@ -182,9 +182,13 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
         if (machine.isBackgroundCamera()) {
             mFlashLamp.setClickable(true);
             mFlashLamp.setVisibility(VISIBLE);
+            type_flash = PreferencesUtils.getInstance().getInt(getContext(), "flash", TYPE_FLASH_OFF);
+            setFlashRes();
         } else {
             mFlashLamp.setClickable(false);
             mFlashLamp.setVisibility(INVISIBLE);
+            type_flash = TYPE_FLASH_OFF;
+            setFlashRes();
         }
         //切换摄像头
         mSwitchCamera.setOnClickListener(new OnClickListener() {
@@ -194,9 +198,13 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
                 if (machine.isBackgroundCamera()) {
                     mFlashLamp.setClickable(true);
                     mFlashLamp.setVisibility(VISIBLE);
+                    type_flash = PreferencesUtils.getInstance().getInt(getContext(), "flash", TYPE_FLASH_OFF);
+                    setFlashRes();
                 } else {
                     mFlashLamp.setClickable(false);
                     mFlashLamp.setVisibility(INVISIBLE);
+                    type_flash = TYPE_FLASH_OFF;
+                    setFlashRes();
                 }
             }
         });
@@ -303,7 +311,13 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
     @Override
     public void cameraHasOpened() {
         CameraInterface.getInstance().doStartPreview(mVideoView.getHolder(), screenProp);
+        if (machine.isBackgroundCamera()) {
+            type_flash = PreferencesUtils.getInstance().getInt(getContext(), "flash", TYPE_FLASH_OFF);
+        } else {
+            type_flash = TYPE_FLASH_OFF;
+        }
         setFlashRes();
+
     }
 
     //生命周期onResume
@@ -636,6 +650,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
     }
 
     private void setFlashRes() {
+//        Log.e("type_flash",type_flash+"");
         switch (type_flash) {
             case TYPE_FLASH_AUTO:
                 mFlashLamp.setImageResource(R.mipmap.camera_flash_auto);
