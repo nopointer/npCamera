@@ -342,6 +342,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
         CameraLog.e("JCameraView onPause");
         stopVideo();
         resetState(TYPE_PICTURE);
+        machine.stop();
         CameraInterface.getInstance().isPreview(false);
         CameraInterface.getInstance().unregisterSensorManager(mContext);
     }

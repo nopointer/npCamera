@@ -35,5 +35,9 @@ public class BaseCameraCfg {
 
     public static String galleryTitle = "Gallery";
 
+    /**
+     * 退出相机模式的延时
+     */
+    public static int delayExitTime = 500;
 
 }

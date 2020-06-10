@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -42,6 +43,8 @@ public class BaseCameraTakePhotoActivity extends Activity {
     public static boolean isStartUI = false;
 
     private LoadingView loadView;
+
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +117,6 @@ public class BaseCameraTakePhotoActivity extends Activity {
                 Intent intent = new Intent();
                 intent.putExtra("path", path);
                 setResult(101, intent);
-                sendExitCamera();
                 finish();
             }
         });
@@ -130,8 +132,8 @@ public class BaseCameraTakePhotoActivity extends Activity {
         jCameraView.setLeftClickListener(new ClickListener() {
             @Override
             public void onClick() {
-                if (!isTakePhotoIng){
-                    BaseCameraTakePhotoActivity.this.finish();
+                if (!isTakePhotoIng) {
+                    finish();
                 }
             }
         });
@@ -152,6 +154,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.e("npCamera", "onResume");
         initReceiver(true);
         jCameraView.onResume();
         isStartUI = true;
@@ -161,6 +164,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
+        Log.e("npCamera", "onPause");
         initReceiver(false);
         jCameraView.onPause();
         isStartUI = false;
@@ -193,18 +197,42 @@ public class BaseCameraTakePhotoActivity extends Activity {
                     if (!isTakePhotoIng) {
                         isTakePhotoIng = true;
                         showLoading();
-                        Log.e("npCamera","开始拍照，显示loading");
+                        Log.e("npCamera", "开始拍照，显示loading");
                         jCameraView.takePhoto();
                     }
                     break;
                 //退出
                 case BaseCameraCfg.exitTakePhotoForApp:
-                    finish();
+                    if (!isTakePhotoIng) {
+                        finish();
+                    } else {
+                        if (handler == null) {
+                            handler = new Handler();
+                        }
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        }, BaseCameraCfg.delayExitTime);
+                    }
                     break;
                 //拍照界面 异常断开 退出拍照界面的提示语
                 case BaseCameraCfg.exitTakePhotoForAppWithDisconnected:
-                    Toast.makeText(BaseCameraTakePhotoActivity.this, BaseCameraCfg.withTakeUIDisconnetedMessage, Toast.LENGTH_SHORT).show();
-                    finish();
+                    if (!isTakePhotoIng) {
+                        Toast.makeText(BaseCameraTakePhotoActivity.this, BaseCameraCfg.withTakeUIDisconnetedMessage, Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        if (handler == null) {
+                            handler = new Handler();
+                        }
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        }, BaseCameraCfg.delayExitTime);
+                    }
                     break;
             }
         }
@@ -214,6 +242,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.e("npCamera", "onDestroy");
         if (loadView != null) {
             loadView.setVisibility(View.GONE);
         }
@@ -255,7 +284,11 @@ public class BaseCameraTakePhotoActivity extends Activity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            sendExitCamera();
+            if (!isTakePhotoIng) {
+                sendExitCamera();
+            } else {
+                return true;
+            }
         }
         return super.onKeyDown(keyCode, event);
     }
