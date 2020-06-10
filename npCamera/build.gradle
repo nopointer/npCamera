@@ -9,8 +9,8 @@ android {
 
     defaultConfig {
         minSdkVersion var.minSdkVersion
-        versionCode 12
-        versionName "1.1.1"
+        versionCode 13
+        versionName "1.1.2"
 
     }
 
@@ -33,7 +33,6 @@ dependencies {
     //多功能图片展示控件 私有引用，方便独立module
     implementation 'me.panpf:sketch:2.6.0'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-
 
     //预览图片需要的lib（暂时没用上）
     implementation 'com.github.filippudak.progresspieview:library:1.0.4'

@@ -199,7 +199,9 @@ public class BaseCameraTakePhotoActivity extends Activity {
                     break;
                 //退出
                 case BaseCameraCfg.exitTakePhotoForApp:
-                    finish();
+                    if (!isTakePhotoIng){
+                        finish();
+                    }
                     break;
                 //拍照界面 异常断开 退出拍照界面的提示语
                 case BaseCameraCfg.exitTakePhotoForAppWithDisconnected:
