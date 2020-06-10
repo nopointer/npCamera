@@ -130,7 +130,9 @@ public class BaseCameraTakePhotoActivity extends Activity {
         jCameraView.setLeftClickListener(new ClickListener() {
             @Override
             public void onClick() {
-                BaseCameraTakePhotoActivity.this.finish();
+                if (!isTakePhotoIng){
+                    BaseCameraTakePhotoActivity.this.finish();
+                }
             }
         });
         jCameraView.setRightClickListener(new ClickListener() {
@@ -139,6 +141,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
                 startActivity(new Intent(BaseCameraTakePhotoActivity.this, BaseCameraGalleryActivity.class));
             }
         });
+        Log.e("npCamera", "开始进入相机界面");
 
         initReceiver(true);
 
@@ -149,13 +152,16 @@ public class BaseCameraTakePhotoActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        initReceiver(true);
         jCameraView.onResume();
         isStartUI = true;
+        isTakePhotoIng = false;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        initReceiver(false);
         jCameraView.onPause();
         isStartUI = false;
     }
@@ -187,6 +193,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
                     if (!isTakePhotoIng) {
                         isTakePhotoIng = true;
                         showLoading();
+                        Log.e("npCamera","开始拍照，显示loading");
                         jCameraView.takePhoto();
                     }
                     break;
@@ -211,7 +218,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
             loadView.setVisibility(View.GONE);
         }
         isStartUI = false;
-        initReceiver(false);
+
         sendExitCamera();
         isTakePhotoIng = false;
     }

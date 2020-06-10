@@ -316,8 +316,12 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
         } else {
             type_flash = TYPE_FLASH_OFF;
         }
-        setFlashRes();
-
+        post(new Runnable() {
+            @Override
+            public void run() {
+                setFlashRes();
+            }
+        });
     }
 
     //生命周期onResume
@@ -442,6 +446,8 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
     public void takePhoto() {
         if (machine != null) {
             machine.capture();
+        }else {
+            Log.e("npCamera","machine = null !!!");
         }
     }
 
