@@ -46,10 +46,16 @@ public class BaseCameraTakePhotoActivity extends Activity {
 
     private Handler handler = new Handler();
 
+    /**
+     * 是否需要发送广播
+     */
+    private boolean isNeedSendExitBroadCast = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isStartUI = true;
+        isNeedSendExitBroadCast = true;
         //去掉标题栏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        //全屏
@@ -73,6 +79,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
                 Log.i("CJT", "camera error");
                 Intent intent = new Intent();
                 setResult(103, intent);
+                isNeedSendExitBroadCast =true;
                 finish();
             }
 
@@ -118,6 +125,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
                 intent.putExtra("path", path);
                 setResult(101, intent);
                 finish();
+                isNeedSendExitBroadCast =true;
             }
         });
 
@@ -134,6 +142,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
             public void onClick() {
                 if (!isTakePhotoIng) {
                     finish();
+                    isNeedSendExitBroadCast =true;
                 }
             }
         });
@@ -203,6 +212,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
                     break;
                 //退出
                 case BaseCameraCfg.exitTakePhotoForApp:
+                    isNeedSendExitBroadCast = false;
                     if (!isTakePhotoIng) {
                         finish();
                     } else {
@@ -247,8 +257,9 @@ public class BaseCameraTakePhotoActivity extends Activity {
             loadView.setVisibility(View.GONE);
         }
         isStartUI = false;
-
-        sendExitCamera();
+        if (isNeedSendExitBroadCast) {
+            sendExitCamera();
+        }
         isTakePhotoIng = false;
     }
 

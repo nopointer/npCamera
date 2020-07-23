@@ -9,8 +9,8 @@ android {
 
     defaultConfig {
         minSdkVersion var.minSdkVersion
-        versionCode 15
-        versionName "1.1.4"
+        versionCode 16
+        versionName "1.1.5"
 
     }
 
