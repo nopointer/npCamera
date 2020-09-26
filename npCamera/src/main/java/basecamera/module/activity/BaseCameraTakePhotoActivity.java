@@ -222,6 +222,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                isTakePhotoIng =false;
                                 finish();
                             }
                         }, BaseCameraCfg.delayExitTime);
