@@ -11,6 +11,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -44,7 +46,23 @@ public class BaseCameraTakePhotoActivity extends Activity {
 
     private LoadingView loadView;
 
-    private Handler handler = new Handler();
+
+    /**
+     * 拍照界面是否点击了退出
+     */
+    private boolean isClickExit = false;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 0) {
+                if (loadView != null) {
+                    loadView.setVisibility(View.GONE);
+                }
+            }
+        }
+    };
 
     /**
      * 是否需要发送广播
@@ -79,7 +97,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
                 Log.i("CJT", "camera error");
                 Intent intent = new Intent();
                 setResult(103, intent);
-                isNeedSendExitBroadCast =true;
+                isNeedSendExitBroadCast = true;
                 finish();
             }
 
@@ -91,26 +109,25 @@ public class BaseCameraTakePhotoActivity extends Activity {
         //JCameraView监听
         jCameraView.setJCameraLisenter(new JCameraListener() {
             @Override
-            public void captureSuccess(Bitmap bitmap) {
-                String jpegName = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + ".jpg";
-                String path = FileUtil.saveBitmap(BaseCameraCfg.photoPath, jpegName, bitmap);
-                //获取图片bitmap
-                isTakePhotoIng = false;
-                CameraLog.e("path===>" + path);
-                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(path))));
-                if (!TextUtils.isEmpty(path)) {
-                    CameraSateHelper.getInstance().notifySuccess(path);
-                } else {
-                    CameraSateHelper.getInstance().notifyFailure(1);
-                }
-                runOnUiThread(new Runnable() {
+            public void captureSuccess(final Bitmap bitmap) {
+                new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        if (loadView != null) {
-                            loadView.setVisibility(View.GONE);
+                        String jpegName = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + ".jpg";
+                        String path = FileUtil.saveBitmap(BaseCameraCfg.photoPath, jpegName, bitmap);
+                        //获取图片bitmap
+
+                        CameraLog.e("path===>" + path);
+                        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(path))));
+                        if (!TextUtils.isEmpty(path)) {
+                            CameraSateHelper.getInstance().notifySuccess(path);
+                        } else {
+                            CameraSateHelper.getInstance().notifyFailure(1);
                         }
+                        handler.sendEmptyMessage(0);
+                        isTakePhotoIng = false;
                     }
-                });
+                }).start();
             }
 
             @Override
@@ -125,7 +142,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
                 intent.putExtra("path", path);
                 setResult(101, intent);
                 finish();
-                isNeedSendExitBroadCast =true;
+                isNeedSendExitBroadCast = true;
             }
         });
 
@@ -141,8 +158,9 @@ public class BaseCameraTakePhotoActivity extends Activity {
             @Override
             public void onClick() {
                 if (!isTakePhotoIng) {
+                    isClickExit = true;
                     finish();
-                    isNeedSendExitBroadCast =true;
+                    isNeedSendExitBroadCast = true;
                 }
             }
         });
@@ -203,6 +221,14 @@ public class BaseCameraTakePhotoActivity extends Activity {
             switch (action) {
                 //拍照
                 case BaseCameraCfg.takePhotoAction:
+                    if (isClickExit) {
+                        Log.e("npCamera", "已经点了退出app的界面了，不接收拍照指令");
+                        return;
+                    }
+                    if (!isStartUI) {
+                        Log.e("npCamera", "当前不在拍照界面，不处理指令");
+                        return;
+                    }
                     if (!isTakePhotoIng) {
                         isTakePhotoIng = true;
                         showLoading();
@@ -222,7 +248,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                isTakePhotoIng =false;
+                                isTakePhotoIng = false;
                                 finish();
                             }
                         }, BaseCameraCfg.delayExitTime);

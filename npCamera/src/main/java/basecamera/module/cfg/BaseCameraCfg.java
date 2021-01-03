@@ -40,4 +40,15 @@ public class BaseCameraCfg {
      */
     public static int delayExitTime = 500;
 
+
+    /**
+     * 手环退出拍照界面，是否也退出其他页面
+     */
+    public static boolean autoExitOtherPageByDeviceExit =false;
+
+    /**
+     * 手环断开连接，是否也退出其他页面
+     */
+    public static boolean autoExitOtherPageByDeviceDisconnect =false;
+
 }

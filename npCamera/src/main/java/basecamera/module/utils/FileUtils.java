@@ -3,6 +3,7 @@ package basecamera.module.utils;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,8 +21,8 @@ import basecamera.module.activity.model.PhotoItem;
 
 public class FileUtils {
 
-    private static String    BASE_PATH;
-    private static String    STICKER_BASE_PATH;
+    private static String BASE_PATH;
+    private static String STICKER_BASE_PATH;
     private static FileUtils mInstance;
 
 
@@ -42,6 +43,7 @@ public class FileUtils {
 
     /**
      * 获取文件夹大小
+     *
      * @param file File实例
      * @return long 单位为K
      * @throws Exception
@@ -77,8 +79,9 @@ public class FileUtils {
         String md5Str = MD5Util.getMD5(imageUrl).replace("-", "mm");
         return getBasePath(packageId) + md5Str;
     }
+
     //读取assets文件
-    public String readFromAsset(Context context,String fileName) {
+    public String readFromAsset(Context context, String fileName) {
         InputStream is = null;
         BufferedReader br = null;
         try {
@@ -146,7 +149,7 @@ public class FileUtils {
         //如果没SD卡则放缓存
         if (Environment.MEDIA_MOUNTED.equals(sdcardState)) {
             BASE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()
-                        + "/stickercamera/";
+                    + "/stickercamera/";
         } else {
             BASE_PATH = context.getCacheDir().getAbsolutePath();
         }
@@ -262,8 +265,8 @@ public class FileUtils {
         return of.exists() && !nf.exists() && of.renameTo(nf);
     }
 
-    /**  
-     * 复制单个文件  
+    /**
+     * 复制单个文件
      */
     public void copyFile(String oldPath, String newPath) {
         InputStream inStream = null;
@@ -295,6 +298,8 @@ public class FileUtils {
     //获取path路径下的图片
     public ArrayList<PhotoItem> findPicsInDir(String path) {
         ArrayList<PhotoItem> photos = new ArrayList<PhotoItem>();
+        Log.e(" 相册路径:", (path == null) + "");
+        Log.e(" 相册路径:", path);
         File dir = new File(path);
         if (dir.exists() && dir.isDirectory()) {
             for (File file : dir.listFiles(new FileFilter() {
