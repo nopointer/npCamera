@@ -35,7 +35,7 @@ import basecamera.module.lib.util.FileUtil;
 import basecamera.module.log.NpCameraLog;
 import basecamera.module.views.LoadingView;
 
-public class BaseCameraTakePhotoActivity extends Activity {
+public class BaseCameraTakePhotoActivity extends Activity implements CameraExiter.Callback {
     private JCameraView jCameraView;
 
     private boolean isTakePhotoIng = false;
@@ -70,6 +70,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CameraExiter.getInstance().registerCallback(this);
         isStartUI = true;
         isNeedSendExitBroadCast = true;
         //去掉标题栏
@@ -170,7 +171,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
         jCameraView.setRightClickListener(new ClickListener() {
             @Override
             public void onClick() {
-                startActivityForResult(new Intent(BaseCameraTakePhotoActivity.this, BaseCameraGalleryActivity.class), 2);
+                startActivity(new Intent(BaseCameraTakePhotoActivity.this, BaseCameraGalleryActivity.class));
             }
         });
         NpCameraLog.logE("开始进入相机界面");
@@ -286,11 +287,12 @@ public class BaseCameraTakePhotoActivity extends Activity {
         if (loadView != null) {
             loadView.setVisibility(View.GONE);
         }
-        isStartUI = false;
         if (isNeedSendExitBroadCast) {
             sendExitCamera();
         }
+        isStartUI = false;
         isTakePhotoIng = false;
+        CameraExiter.getInstance().unRegisterCallback(this);
     }
 
     /**
@@ -336,11 +338,8 @@ public class BaseCameraTakePhotoActivity extends Activity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2 && resultCode == RESULT_OK) {
-            isTakePhotoIng = false;
-            finish();
-        }
+    public void onFinish() {
+        isTakePhotoIng = false;
+        finish();
     }
 }

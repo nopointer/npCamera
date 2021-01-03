@@ -127,15 +127,15 @@ public class BaseCameraGalleryActivity extends FragmentActivity {
             switch (action) {
                 case BaseCameraCfg.exitTakePhotoForApp:
                     if (BaseCameraCfg.autoExitOtherPageByDeviceExit) {
-                        setResultCode(RESULT_OK);
                         finish();
+                        CameraExiter.getInstance().notifyFinish();
                     }
                     break;
                 //拍照界面 异常断开 退出拍照界面的提示语
                 case BaseCameraCfg.exitTakePhotoForAppWithDisconnected:
                     if (BaseCameraCfg.autoExitOtherPageByDeviceDisconnect) {
-                        setResultCode(RESULT_OK);
                         finish();
+                        CameraExiter.getInstance().notifyFinish();
                     }
                     break;
             }
