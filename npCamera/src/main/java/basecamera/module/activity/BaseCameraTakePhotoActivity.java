@@ -186,7 +186,6 @@ public class BaseCameraTakePhotoActivity extends Activity implements CameraExite
     protected void onResume() {
         super.onResume();
         NpCameraLog.logE("onResume");
-        initReceiver(true);
         jCameraView.onResume();
         isStartUI = true;
         isTakePhotoIng = false;
@@ -196,7 +195,6 @@ public class BaseCameraTakePhotoActivity extends Activity implements CameraExite
     protected void onPause() {
         super.onPause();
         NpCameraLog.logE("onPause");
-        initReceiver(false);
         jCameraView.onPause();
         isStartUI = false;
     }
@@ -293,6 +291,7 @@ public class BaseCameraTakePhotoActivity extends Activity implements CameraExite
         isStartUI = false;
         isTakePhotoIng = false;
         CameraExiter.getInstance().unRegisterCallback(this);
+        initReceiver(false);
     }
 
     /**
