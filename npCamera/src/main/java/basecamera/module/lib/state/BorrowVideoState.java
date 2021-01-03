@@ -5,7 +5,7 @@ import android.view.SurfaceHolder;
 
 import basecamera.module.lib.CameraInterface;
 import basecamera.module.lib.JCameraView;
-import basecamera.module.lib.util.CameraLog;
+import basecamera.module.log.NpCameraLog;
 
 
 /**
@@ -80,7 +80,7 @@ public class BorrowVideoState implements State {
 
     @Override
     public void zoom(float zoom, int type) {
-        CameraLog.i(TAG, "zoom");
+        NpCameraLog.logI( "zoom");
     }
 
     @Override

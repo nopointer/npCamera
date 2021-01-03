@@ -5,16 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,12 +127,14 @@ public class BaseCameraGalleryActivity extends FragmentActivity {
             switch (action) {
                 case BaseCameraCfg.exitTakePhotoForApp:
                     if (BaseCameraCfg.autoExitOtherPageByDeviceExit) {
+                        setResultCode(RESULT_OK);
                         finish();
                     }
                     break;
                 //拍照界面 异常断开 退出拍照界面的提示语
                 case BaseCameraCfg.exitTakePhotoForAppWithDisconnected:
                     if (BaseCameraCfg.autoExitOtherPageByDeviceDisconnect) {
+                        setResultCode(RESULT_OK);
                         finish();
                     }
                     break;

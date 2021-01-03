@@ -13,8 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import basecamera.module.lib.listener.CaptureListener;
-import basecamera.module.lib.util.CameraLog;
 import basecamera.module.lib.util.CheckPermission;
+import basecamera.module.log.NpCameraLog;
 
 import static basecamera.module.lib.JCameraView.BUTTON_STATE_BOTH;
 import static basecamera.module.lib.JCameraView.BUTTON_STATE_ONLY_CAPTURE;
@@ -98,9 +98,9 @@ public class CaptureButton extends View {
 
         state = STATE_IDLE;                //初始化为空闲状态
         button_state = BUTTON_STATE_BOTH;  //初始化按钮为可录制可拍照
-        CameraLog.i("CaptureButtom start");
+        NpCameraLog.logI("CaptureButtom start");
         duration = 10 * 1000;              //默认最长录制时间为10s
-        CameraLog.i("CaptureButtom end");
+        NpCameraLog.logI("CaptureButtom end");
         min_duration = 1500;              //默认最短录制时间为1.5s
 
         center_X = (button_size + outside_add_size * 2) / 2;
@@ -146,7 +146,7 @@ public class CaptureButton extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                CameraLog.i("state = " + state);
+                NpCameraLog.logI("state = " + state);
                 if (event.getPointerCount() > 1 || state != STATE_IDLE)
                     break;
                 event_Y = event.getY();     //记录Y值

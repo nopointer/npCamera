@@ -35,8 +35,8 @@ import basecamera.module.lib.util.CameraParamUtil;
 import basecamera.module.lib.util.CheckPermission;
 import basecamera.module.lib.util.DeviceUtil;
 import basecamera.module.lib.util.FileUtil;
-import basecamera.module.lib.util.CameraLog;
 import basecamera.module.lib.util.ScreenUtils;
+import basecamera.module.log.NpCameraLog;
 
 import static android.graphics.Bitmap.createBitmap;
 
@@ -255,7 +255,7 @@ public class CameraInterface implements Camera.PreviewCallback {
                     mParams.setZoom(nowScaleRate);
                     mCamera.setParameters(mParams);
                 }
-                CameraLog.i("setZoom = " + nowScaleRate);
+                NpCameraLog.logI("setZoom = " + nowScaleRate);
                 break;
         }
 
@@ -341,7 +341,7 @@ public class CameraInterface implements Camera.PreviewCallback {
             SELECTED_CAMERA = CAMERA_POST_POSITION;
         }
         doDestroyCamera();
-        CameraLog.i("open start");
+        NpCameraLog.logI("open start");
         openCamera(SELECTED_CAMERA);
 //        mCamera = Camera.open();
 //        if (Build.VERSION.SDK_INT > 17 && this.mCamera != null) {
@@ -351,7 +351,7 @@ public class CameraInterface implements Camera.PreviewCallback {
 //                e.printStackTrace();
 //            }
 //        }
-        CameraLog.i("open end");
+        NpCameraLog.logI("open end");
         doStartPreview(holder, screenProp);
     }
 
@@ -360,7 +360,7 @@ public class CameraInterface implements Camera.PreviewCallback {
      */
     public void doStartPreview(SurfaceHolder holder, float screenProp) {
         if (isPreviewing) {
-            CameraLog.i("doStartPreview isPreviewing");
+            NpCameraLog.logI("doStartPreview isPreviewing");
         }
         if (this.screenProp < 0) {
             this.screenProp = screenProp;

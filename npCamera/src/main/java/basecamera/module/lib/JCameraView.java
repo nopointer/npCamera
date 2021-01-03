@@ -31,9 +31,9 @@ import basecamera.module.lib.listener.JCameraListener;
 import basecamera.module.lib.listener.TypeListener;
 import basecamera.module.lib.state.CameraMachine;
 import basecamera.module.lib.util.FileUtil;
-import basecamera.module.lib.util.CameraLog;
 import basecamera.module.lib.util.ScreenUtils;
 import basecamera.module.lib.view.CameraView;
+import basecamera.module.log.NpCameraLog;
 import basecamera.module.utils.PreferencesUtils;
 
 
@@ -147,7 +147,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
         layout_width = ScreenUtils.getScreenWidth(mContext);
         //缩放梯度
         zoomGradient = (int) (layout_width / 16f);
-        CameraLog.i("zoom = " + zoomGradient);
+        NpCameraLog.logI("zoom = " + zoomGradient);
         machine = new CameraMachine(getContext(), this, this);
     }
 
@@ -247,7 +247,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
 
             @Override
             public void recordZoom(float zoom) {
-                CameraLog.e("recordZoom");
+                NpCameraLog.logE("recordZoom");
                 machine.zoom(zoom, CameraInterface.TYPE_RECORDER);
             }
 
@@ -267,7 +267,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
 
             @Override
             public void confirm() {
-                CameraLog.e(machine.getState() + "=====>");
+                NpCameraLog.logE(machine.getState() + "=====>");
                 machine.confirm();
             }
         });
@@ -326,7 +326,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     //生命周期onResume
     public void onResume() {
-        CameraLog.e("JCameraView onResume");
+        NpCameraLog.logE("JCameraView onResume");
         resetState(TYPE_DEFAULT); //重置状态
         CameraInterface.getInstance().registerSensorManager(mContext);
         CameraInterface.getInstance().setSwitchView(mSwitchCamera, mFlashLamp);
@@ -339,7 +339,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     //生命周期onPause
     public void onPause() {
-        CameraLog.e("JCameraView onPause");
+        NpCameraLog.logE("JCameraView onPause");
         stopVideo();
         resetState(TYPE_PICTURE);
         machine.stop();
@@ -350,7 +350,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
     //SurfaceView生命周期
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        CameraLog.i("JCameraView SurfaceCreated");
+        NpCameraLog.logI("JCameraView SurfaceCreated");
         new Thread() {
             @Override
             public void run() {
@@ -365,7 +365,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        CameraLog.e("JCameraView SurfaceDestroyed");
+        NpCameraLog.logE("JCameraView SurfaceDestroyed");
         CameraInterface.getInstance().doDestroyCamera();
     }
 
@@ -525,7 +525,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
             case TYPE_DEFAULT:
                 break;
         }
-        CameraLog.e("confirmState===>" + type);
+        NpCameraLog.logE("confirmState===>" + type);
         mCaptureLayout.resetCaptureLayout();
     }
 
@@ -542,7 +542,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
 //        mCaptureLayout.startAlphaAnimation();
 //        mCaptureLayout.startTypeBtnAnimator();
 //mCaptureLayout.resetCaptureLayout();
-//        CameraLog.e("=====获取了bitmap");
+//        NpCameraLog.logE("=====获取了bitmap");
 //        machine.confirm();
         if (jCameraLisenter != null) {
             jCameraLisenter.captureSuccess(captureBitmap);
@@ -615,7 +615,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     @Override
     public void startPreviewCallback() {
-        CameraLog.i("startPreviewCallback");
+        NpCameraLog.logI("startPreviewCallback");
         handlerFoucs(mFoucsView.getWidth() / 2, mFoucsView.getHeight() / 2);
     }
 

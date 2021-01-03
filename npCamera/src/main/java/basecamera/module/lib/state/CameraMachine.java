@@ -5,8 +5,8 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 
 import basecamera.module.lib.CameraInterface;
-import basecamera.module.lib.util.CameraLog;
 import basecamera.module.lib.view.CameraView;
+import basecamera.module.log.NpCameraLog;
 
 
 /**
@@ -90,7 +90,7 @@ public class CameraMachine implements State {
     @Override
     public void swtich(SurfaceHolder holder, float screenProp) {
         state.swtich(holder, screenProp);
-        CameraLog.e("CameraInterface====>" + CameraInterface.getInstance().getSELECTED_CAMERA());
+        NpCameraLog.logE("CameraInterface====>" + CameraInterface.getInstance().getSELECTED_CAMERA());
     }
 
     @Override

@@ -14,13 +14,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
-
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -34,7 +32,7 @@ import basecamera.module.lib.listener.ClickListener;
 import basecamera.module.lib.listener.ErrorListener;
 import basecamera.module.lib.listener.JCameraListener;
 import basecamera.module.lib.util.FileUtil;
-import basecamera.module.lib.util.CameraLog;
+import basecamera.module.log.NpCameraLog;
 import basecamera.module.views.LoadingView;
 
 public class BaseCameraTakePhotoActivity extends Activity {
@@ -94,7 +92,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
             @Override
             public void onError() {
                 //错误监听
-                Log.i("CJT", "camera error");
+                NpCameraLog.logI("camera error");
                 Intent intent = new Intent();
                 setResult(103, intent);
                 isNeedSendExitBroadCast = true;
@@ -117,12 +115,17 @@ public class BaseCameraTakePhotoActivity extends Activity {
                         String path = FileUtil.saveBitmap(BaseCameraCfg.photoPath, jpegName, bitmap);
                         //获取图片bitmap
 
-                        CameraLog.e("path===>" + path);
+                        NpCameraLog.logE("path===>" + path);
                         sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(path))));
                         if (!TextUtils.isEmpty(path)) {
                             CameraSateHelper.getInstance().notifySuccess(path);
                         } else {
                             CameraSateHelper.getInstance().notifyFailure(1);
+                        }
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
                         handler.sendEmptyMessage(0);
                         isTakePhotoIng = false;
@@ -137,7 +140,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
 
                 //获取视频路径
                 String path = FileUtil.saveBitmap("JCamera/videoScreen", jpegName, firstFrame);
-                Log.i("CJT", "url = " + url + ", Bitmap = " + path);
+                NpCameraLog.logI("url = " + url + ", Bitmap = " + path);
                 Intent intent = new Intent();
                 intent.putExtra("path", path);
                 setResult(101, intent);
@@ -149,7 +152,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
         jCameraView.setOnCameraSomeStateListener(new JCameraView.OnCameraSomeStateListener() {
             @Override
             public void onBeforeTakePhoto() {
-                Log.e("fuck,camera", "开始拍照");
+                NpCameraLog.logE("开始拍照");
 //                sendBroadcast(new Intent(loadingAction));
                 sendBroadcast(new Intent(BaseCameraCfg.takePhotoAction));
             }
@@ -167,10 +170,10 @@ public class BaseCameraTakePhotoActivity extends Activity {
         jCameraView.setRightClickListener(new ClickListener() {
             @Override
             public void onClick() {
-                startActivity(new Intent(BaseCameraTakePhotoActivity.this, BaseCameraGalleryActivity.class));
+                startActivityForResult(new Intent(BaseCameraTakePhotoActivity.this, BaseCameraGalleryActivity.class), 2);
             }
         });
-        Log.e("npCamera", "开始进入相机界面");
+        NpCameraLog.logE("开始进入相机界面");
 
         initReceiver(true);
 
@@ -181,7 +184,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("npCamera", "onResume");
+        NpCameraLog.logE("onResume");
         initReceiver(true);
         jCameraView.onResume();
         isStartUI = true;
@@ -191,7 +194,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e("npCamera", "onPause");
+        NpCameraLog.logE("onPause");
         initReceiver(false);
         jCameraView.onPause();
         isStartUI = false;
@@ -222,17 +225,17 @@ public class BaseCameraTakePhotoActivity extends Activity {
                 //拍照
                 case BaseCameraCfg.takePhotoAction:
                     if (isClickExit) {
-                        Log.e("npCamera", "已经点了退出app的界面了，不接收拍照指令");
+                        NpCameraLog.logE("已经点了退出app的界面了，不接收拍照指令");
                         return;
                     }
                     if (!isStartUI) {
-                        Log.e("npCamera", "当前不在拍照界面，不处理指令");
+                        NpCameraLog.logE("当前不在拍照界面，不处理指令");
                         return;
                     }
                     if (!isTakePhotoIng) {
                         isTakePhotoIng = true;
                         showLoading();
-                        Log.e("npCamera", "开始拍照，显示loading");
+                        NpCameraLog.logE("开始拍照，显示loading");
                         jCameraView.takePhoto();
                     }
                     break;
@@ -279,7 +282,7 @@ public class BaseCameraTakePhotoActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("npCamera", "onDestroy");
+        NpCameraLog.logE("onDestroy");
         if (loadView != null) {
             loadView.setVisibility(View.GONE);
         }
@@ -332,4 +335,12 @@ public class BaseCameraTakePhotoActivity extends Activity {
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2 && resultCode == RESULT_OK) {
+            isTakePhotoIng = false;
+            finish();
+        }
+    }
 }

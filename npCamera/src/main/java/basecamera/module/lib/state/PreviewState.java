@@ -6,7 +6,7 @@ import android.view.SurfaceHolder;
 
 import basecamera.module.lib.CameraInterface;
 import basecamera.module.lib.JCameraView;
-import basecamera.module.lib.util.CameraLog;
+import basecamera.module.log.NpCameraLog;
 
 /**
  * =====================================
@@ -17,7 +17,6 @@ import basecamera.module.lib.util.CameraLog;
  * =====================================
  */
 class PreviewState implements State {
-    public static final String TAG = "PreviewState";
 
     private CameraMachine machine;
 
@@ -38,7 +37,7 @@ class PreviewState implements State {
 
     @Override
     public void foucs(float x, float y, CameraInterface.FocusCallback callback) {
-        CameraLog.i("preview state foucs");
+        NpCameraLog.logI("preview state foucs");
         if (machine.getView().handlerFoucs(x, y)) {
             CameraInterface.getInstance().handleFocus(machine.getContext(), x, y, callback);
         }
@@ -59,7 +58,7 @@ class PreviewState implements State {
         CameraInterface.getInstance().takePicture(new CameraInterface.TakePictureCallback() {
             @Override
             public void captureResult(Bitmap bitmap, boolean isVertical) {
-                CameraLog.e("拍照的结果回调");
+                NpCameraLog.logE("拍照的结果回调");
                 machine.getView().showPicture(bitmap, isVertical);
 //                machine.setState(machine.getBorrowPictureState());
             }
@@ -88,17 +87,17 @@ class PreviewState implements State {
 
     @Override
     public void cancle(SurfaceHolder holder, float screenProp) {
-        CameraLog.i("浏览状态下,没有 cancle 事件");
+        NpCameraLog.logI("浏览状态下,没有 cancle 事件");
     }
 
     @Override
     public void confirm() {
-        CameraLog.e("浏览状态下,没有 confirm 事件");
+        NpCameraLog.logE("浏览状态下,没有 confirm 事件");
     }
 
     @Override
     public void zoom(float zoom, int type) {
-        CameraLog.i(TAG, "zoom");
+        NpCameraLog.logI( "zoom");
         CameraInterface.getInstance().setZoom(zoom, type);
     }
 
