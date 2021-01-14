@@ -153,6 +153,10 @@ public class BaseCameraTakePhotoActivity extends Activity implements CameraExite
         jCameraView.setOnCameraSomeStateListener(new JCameraView.OnCameraSomeStateListener() {
             @Override
             public void onBeforeTakePhoto() {
+                if (!isStartUI) {
+                    NpCameraLog.logE("相机已经onPause，不处理");
+                    return;
+                }
                 NpCameraLog.logE("开始拍照");
 //                sendBroadcast(new Intent(loadingAction));
                 sendBroadcast(new Intent(BaseCameraCfg.takePhotoAction));
@@ -195,8 +199,8 @@ public class BaseCameraTakePhotoActivity extends Activity implements CameraExite
     protected void onPause() {
         super.onPause();
         NpCameraLog.logE("onPause");
-        jCameraView.onPause();
         isStartUI = false;
+        jCameraView.onPause();
     }
 
 

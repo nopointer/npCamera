@@ -301,20 +301,24 @@ public class FileUtils {
         Log.e(" 相册路径:", (path == null) + "");
         Log.e(" 相册路径:", path);
         File dir = new File(path);
-        if (dir.exists() && dir.isDirectory()) {
-            for (File file : dir.listFiles(new FileFilter() {
+        try {
+            if (dir.exists() && dir.isDirectory()) {
+                for (File file : dir.listFiles(new FileFilter() {
 
-                @Override
-                public boolean accept(File pathname) {
-                    String filePath = pathname.getAbsolutePath();
-                    return (filePath.endsWith(".png") || filePath.endsWith(".jpg") || filePath
-                            .endsWith(".jepg"));
+                    @Override
+                    public boolean accept(File pathname) {
+                        String filePath = pathname.getAbsolutePath();
+                        return (filePath.endsWith(".png") || filePath.endsWith(".jpg") || filePath
+                                .endsWith(".jepg"));
+                    }
+                })) {
+                    photos.add(new PhotoItem(file.getAbsolutePath(), file.lastModified()));
                 }
-            })) {
-                photos.add(new PhotoItem(file.getAbsolutePath(), file.lastModified()));
             }
+            Collections.sort(photos);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        Collections.sort(photos);
         return photos;
     }
 

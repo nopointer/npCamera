@@ -1,5 +1,6 @@
 package basecamera.module.activity;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 import basecamera.module.activity.model.Album;
 import basecamera.module.cfg.BaseCameraCfg;
+import basecamera.module.cfg.BaseCameraPermissionHelper;
 import basecamera.module.cfg.BaseCameraResHelper;
 import basecamera.module.lib.R;
 import basecamera.module.utils.FileUtils;
@@ -66,6 +68,13 @@ public class BaseCameraGalleryActivity extends FragmentActivity {
         });
 
         initReceiver(true);
+
+        if (!BaseCameraPermissionHelper.hasPermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            BaseCameraPermissionHelper.getInstance().onNotPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+
+
+
     }
 
     class TabPageIndicatorAdapter extends FragmentPagerAdapter {
@@ -141,5 +150,6 @@ public class BaseCameraGalleryActivity extends FragmentActivity {
             }
         }
     };
+
 
 }
