@@ -9,7 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="3"
-        android:paddingLeft="10dp">
+        android:paddingLeft="10dp"
+        android:paddingStart="10dp"
+        >
 
         <ImageView
             android:id="@+id/left_icon_view"
@@ -26,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/left_icon_view"
+            android:layout_toEndOf="@+id/left_icon_view"
             android:clickable="false"
             android:text="left"
             android:textColor="#fff"
@@ -64,6 +67,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:clickable="false"
@@ -75,8 +79,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:clickable="false"
             android:text="right"
             android:textColor="#000000"
