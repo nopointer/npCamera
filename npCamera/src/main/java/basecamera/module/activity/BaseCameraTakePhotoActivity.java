@@ -12,13 +12,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -113,7 +114,7 @@ public class BaseCameraTakePhotoActivity extends Activity implements CameraExite
                     @Override
                     public void run() {
                         String jpegName = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + ".jpg";
-                        String path = FileUtil.saveBitmap(BaseCameraCfg.photoPath, jpegName, bitmap);
+                        String path = FileUtil.saveBitmap(BaseCameraCfg.photoDir, jpegName, bitmap);
                         //获取图片bitmap
 
                         NpCameraLog.logE("path===>" + path);

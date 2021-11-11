@@ -3,6 +3,7 @@ package demo.npCamera;
 import android.app.Application;
 
 import basecamera.module.cfg.BaseCameraCfg;
+import basecamera.module.lib.util.FileUtil;
 
 
 public class MainApplication extends Application {
@@ -16,7 +17,9 @@ public class MainApplication extends Application {
         super.onCreate();
         mainApplication = this;
 
-        BaseCameraCfg.photoPath="DCIM/DiriFit";
+        BaseCameraCfg.photoDir="DCIM/DiriFit";
+
+        FileUtil.init(this);
 
 
     }

@@ -28,7 +28,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "com.android.support:appcompat-v7:${var.supportLibraryVersion}"
     implementation project(':npCamera')
 //    implementation 'com.github.nopointer:npCamera:1.1.7'
     //遥控相机

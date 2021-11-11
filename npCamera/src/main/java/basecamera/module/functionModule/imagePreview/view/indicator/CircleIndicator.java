@@ -8,16 +8,16 @@ import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
+import androidx.viewpager.widget.ViewPager;
+
 import basecamera.module.lib.R;
 
-import static android.support.v4.view.ViewPager.OnPageChangeListener;
 
 /**
  * 圆形小点索引指示器
@@ -41,7 +41,7 @@ public class CircleIndicator extends LinearLayout {
     private int mIndicatorHeight = -1;
 
     private int mLastPosition = -1;
-    private final OnPageChangeListener mInternalPageChangeListener = new OnPageChangeListener() {
+    private final ViewPager.OnPageChangeListener mInternalPageChangeListener = new ViewPager.OnPageChangeListener() {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -214,7 +214,7 @@ public class CircleIndicator extends LinearLayout {
      * @deprecated User ViewPager addOnPageChangeListener
      */
     @Deprecated
-    public void setOnPageChangeListener(OnPageChangeListener onPageChangeListener) {
+    public void setOnPageChangeListener(ViewPager.OnPageChangeListener onPageChangeListener) {
         if (mViewpager == null) {
             throw new NullPointerException("can not find Viewpager , setViewPager first");
         }

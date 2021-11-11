@@ -4,7 +4,7 @@ package basecamera.module.cfg;
 public class BaseCameraCfg {
 
 
-    public static String photoPath = "DCIM";
+    public static String photoDir = "DCIM";
 
     /**
      * 拍照指令，相机界面接收该指令，进行拍照

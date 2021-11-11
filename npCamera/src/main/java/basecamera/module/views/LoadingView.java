@@ -6,14 +6,14 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
+import androidx.annotation.NonNull;
+
 import basecamera.module.lib.R;
 import basecamera.module.utils.DisplayHelperUtils;
-import me.panpf.sketch.request.DisplayHelper;
 
 
 public class LoadingView extends View {

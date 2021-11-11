@@ -1,8 +1,9 @@
 package basecamera.module.functionModule.imagePreview.loader;
 
 import android.graphics.drawable.Drawable;
-import android.support.annotation.UiThread;
 import android.widget.ImageView;
+
+import androidx.annotation.UiThread;
 
 /**
  * 图片加载器接口，实现 ImageLoader 可扩展自己的图片加载器

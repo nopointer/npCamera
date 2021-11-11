@@ -3,10 +3,11 @@ package basecamera.module.functionModule.imagePreview.transfer;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IdRes;
-import android.support.v7.widget.RecyclerView;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+
+import androidx.annotation.IdRes;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,8 @@
 package basecamera.module.functionModule.imagePreview.style;
 
-import android.support.v4.view.ViewPager;
 import android.widget.FrameLayout;
+
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * 图片索引指示器接口，实现 IIndexIndicator 可扩展自己的图片指示器组件

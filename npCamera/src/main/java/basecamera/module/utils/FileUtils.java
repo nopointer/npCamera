@@ -2,7 +2,11 @@ package basecamera.module.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -18,13 +22,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import basecamera.module.activity.model.PhotoItem;
+import basecamera.module.log.NpCameraLog;
 
 public class FileUtils {
 
     private static String BASE_PATH;
-    private static String STICKER_BASE_PATH;
     private static FileUtils mInstance;
 
+
+    private static Context mContext;
 
     public static FileUtils getInst(Context context) {
         if (mInstance == null) {
@@ -71,14 +77,6 @@ public class FileUtils {
     }
 
 
-    public String getBasePath(int packageId) {
-        return STICKER_BASE_PATH + packageId + "/";
-    }
-
-    private String getImageFilePath(int packageId, String imageUrl) {
-        String md5Str = MD5Util.getMD5(imageUrl).replace("-", "mm");
-        return getBasePath(packageId) + md5Str;
-    }
 
     //读取assets文件
     public String readFromAsset(Context context, String fileName) {
@@ -102,13 +100,7 @@ public class FileUtils {
         }
     }
 
-    public void removeAddonFolder(int packageId) {
-        String filename = getBasePath(packageId);
-        File file = new File(filename);
-        if (file.exists()) {
-            delete(file);
-        }
-    }
+
 
     public void delete(File file) {
         if (file.isFile()) {
@@ -140,11 +132,20 @@ public class FileUtils {
 
     public String getSystemPhotoPath() {
 //        return Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/Camera";
-        return Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM";
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {// Android 11 (API level 30)
+            Uri uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+            String path = uri2File(uri).getPath();
+            NpCameraLog.logE("路径:" + path);
+            return path;
+        } else {
+            return Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM";
+        }
     }
 
 
     private FileUtils(Context context) {
+        mContext = context;
         String sdcardState = Environment.getExternalStorageState();
         //如果没SD卡则放缓存
         if (Environment.MEDIA_MOUNTED.equals(sdcardState)) {
@@ -153,8 +154,6 @@ public class FileUtils {
         } else {
             BASE_PATH = context.getCacheDir().getAbsolutePath();
         }
-
-        STICKER_BASE_PATH = BASE_PATH + "/stickers/";
     }
 
     public boolean createFile(File file) {
@@ -320,6 +319,28 @@ public class FileUtils {
             e.printStackTrace();
         }
         return photos;
+    }
+
+
+    private File uri2File(Uri uri) {
+        String img_path;
+
+        String[] proj = {MediaStore.Images.Media.DATA};
+
+        Cursor actualimagecursor = mContext.getContentResolver().query(uri, proj, null, null, null);
+
+        if (actualimagecursor == null) {
+            img_path = uri.getPath();
+
+        } else {
+            int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            actualimagecursor.moveToFirst();
+            img_path = actualimagecursor.getString(actual_image_column_index);
+        }
+
+        NpCameraLog.logE("img_path = " + img_path);
+        File file = new File(img_path);
+        return file;
     }
 
 

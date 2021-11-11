@@ -2,9 +2,10 @@ package basecamera.module.functionModule.imagePreview.view.indicator;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.widget.TextView;
+
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.Locale;
 

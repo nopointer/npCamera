@@ -9,8 +9,8 @@ android {
 
     defaultConfig {
         minSdkVersion var.minSdkVersion
-        versionCode 24
-        versionName "1.2.4"
+        versionCode 25
+        versionName "1.2.5"
 
     }
 
@@ -25,15 +25,20 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "com.android.support:support-v4:${var.supportLibraryVersion}"
-    implementation "com.android.support:appcompat-v7:${var.supportLibraryVersion}"
-    implementation "com.android.support:recyclerview-v7:${var.supportLibraryVersion}"
-    implementation "com.android.support:design:${var.supportLibraryVersion}"
+//    implementation "com.android.support:support-v4:${var.supportLibraryVersion}"
+//    implementation "com.android.support:appcompat-v7:${var.supportLibraryVersion}"
+//    implementation "com.android.support:recyclerview-v7:${var.supportLibraryVersion}"
+//    implementation "com.android.support:design:${var.supportLibraryVersion}"
+
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
+    implementation "androidx.appcompat:appcompat:1.0.2"
+//    api "androidx.multidex:multidex:2.0.1"
+//    api "androidx.cardview:cardview:1.0.0"
 
     //多功能图片展示控件 私有引用，方便独立module
     implementation 'me.panpf:sketch:2.6.0'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
     //预览图片需要的lib（暂时没用上）
-    implementation 'com.github.filippudak.progresspieview:library:1.0.4'
+//    implementation 'com.github.filippudak.progresspieview:library:1.0.4'
 }

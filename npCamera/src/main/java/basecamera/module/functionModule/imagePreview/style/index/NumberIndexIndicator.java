@@ -1,10 +1,11 @@
 package basecamera.module.functionModule.imagePreview.style.index;
 
-import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import androidx.viewpager.widget.ViewPager;
 
 import basecamera.module.functionModule.imagePreview.style.IIndexIndicator;
 import basecamera.module.functionModule.imagePreview.view.indicator.NumberIndicator;
