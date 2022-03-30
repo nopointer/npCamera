@@ -9,8 +9,8 @@ android {
 
     defaultConfig {
         minSdkVersion var.minSdkVersion
-        versionCode 25
-        versionName "1.2.5"
+        versionCode 26
+        versionName "1.2.6"
 
     }
 
@@ -19,6 +19,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
 }
@@ -30,8 +35,8 @@ dependencies {
 //    implementation "com.android.support:recyclerview-v7:${var.supportLibraryVersion}"
 //    implementation "com.android.support:design:${var.supportLibraryVersion}"
 
-    implementation "androidx.recyclerview:recyclerview:1.0.0"
-    implementation "androidx.appcompat:appcompat:1.0.2"
+    api "androidx.recyclerview:recyclerview:1.0.0"
+    api "androidx.appcompat:appcompat:1.3.1"
 //    api "androidx.multidex:multidex:2.0.1"
 //    api "androidx.cardview:cardview:1.0.0"
 

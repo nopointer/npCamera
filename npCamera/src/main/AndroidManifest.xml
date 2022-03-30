@@ -7,11 +7,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:theme="@style/BaseCamera_AppTheme.NoActionBar">
+        android:theme="@style/BaseCamera_AppTheme.NoActionBar"
+        >
         <activity
             android:name="basecamera.module.activity.BaseCameraTakePhotoActivity"
             android:launchMode="singleTask" />
         <activity
+            android:theme="@style/Theme.AppCompat"
             android:name="basecamera.module.activity.BaseCameraGalleryActivity"
             android:launchMode="singleTask" />
     </application>

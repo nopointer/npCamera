@@ -36,9 +36,6 @@ ext {
             minSdkVersion        : 19,
             targetSdkVersion     : 30,
             compileSdkVersion    : 30,
-            buildToolsVersion    : "27.0.0",
-            //Dependencies
-            supportLibraryVersion: "27.0.0"
     ]
 }
 
@@ -65,7 +62,7 @@ subprojects {
 //        }
 
         resolutionStrategy {
-            force 'androidx.appcompat:appcompat:1.0.2'
+            force 'androidx.appcompat:appcompat:1.2.0'
             force 'androidx.vectordrawable:vectordrawable-animated:1.0.0'
             force 'androidx.vectordrawable:vectordrawable:1.0.0'
             force 'androidx.fragment:fragment:1.0.0'

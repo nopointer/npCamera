@@ -133,7 +133,7 @@ public class FileUtils {
     public String getSystemPhotoPath() {
 //        return Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/Camera";
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {// Android 11 (API level 30)
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {// Android 11 (API level 30)
             Uri uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
             String path = uri2File(uri).getPath();
             NpCameraLog.logE("路径:" + path);

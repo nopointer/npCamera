@@ -17,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,7 +35,7 @@ import basecamera.module.lib.listener.ErrorListener;
 import basecamera.module.lib.listener.JCameraListener;
 import basecamera.module.lib.util.FileUtil;
 import basecamera.module.log.NpCameraLog;
-import basecamera.module.views.LoadingView;
+import me.panpf.sketch.SketchImageView;
 
 public class BaseCameraTakePhotoActivity extends Activity implements CameraExiter.Callback {
     private JCameraView jCameraView;
@@ -43,7 +44,11 @@ public class BaseCameraTakePhotoActivity extends Activity implements CameraExite
 
     public static boolean isStartUI = false;
 
-    private LoadingView loadView;
+    private View maskView;
+
+    private View rl_preview;
+    private SketchImageView siv_preview;
+    private ImageView iv_close;
 
 
     /**
@@ -56,8 +61,8 @@ public class BaseCameraTakePhotoActivity extends Activity implements CameraExite
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0) {
-                if (loadView != null) {
-                    loadView.setVisibility(View.GONE);
+                if (maskView != null) {
+                    maskView.setVisibility(View.GONE);
                 }
             }
         }
@@ -84,7 +89,18 @@ public class BaseCameraTakePhotoActivity extends Activity implements CameraExite
         setContentView(R.layout.basecamera_activity_camera);
         jCameraView = findViewById(R.id.jcameraview);
 
-        loadView = findViewById(R.id.loadView);
+        maskView = findViewById(R.id.maskView);
+        siv_preview = findViewById(R.id.siv_preview);
+        iv_close = findViewById(R.id.iv_close);
+        rl_preview = findViewById(R.id.rl_preview);
+
+
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rl_preview.setVisibility(View.GONE);
+            }
+        });
 
         //设置视频保存路径
         jCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "JCamera");
@@ -114,13 +130,20 @@ public class BaseCameraTakePhotoActivity extends Activity implements CameraExite
                     @Override
                     public void run() {
                         String jpegName = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + ".jpg";
-                        String path = FileUtil.saveBitmap(BaseCameraCfg.photoDir, jpegName, bitmap);
+                        final String path = FileUtil.saveBitmap(BaseCameraCfg.photoDir, jpegName, bitmap);
                         //获取图片bitmap
 
                         NpCameraLog.logE("path===>" + path);
                         sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(path))));
                         if (!TextUtils.isEmpty(path)) {
                             CameraSateHelper.getInstance().notifySuccess(path);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    siv_preview.displayImage(path);
+                                    rl_preview.setVisibility(View.VISIBLE);
+                                }
+                            });
                         } else {
                             CameraSateHelper.getInstance().notifyFailure(1);
                         }
@@ -287,8 +310,8 @@ public class BaseCameraTakePhotoActivity extends Activity implements CameraExite
     protected void onDestroy() {
         super.onDestroy();
         NpCameraLog.logE("onDestroy");
-        if (loadView != null) {
-            loadView.setVisibility(View.GONE);
+        if (maskView != null) {
+            maskView.setVisibility(View.GONE);
         }
         if (isNeedSendExitBroadCast) {
             sendExitCamera();
@@ -307,8 +330,8 @@ public class BaseCameraTakePhotoActivity extends Activity implements CameraExite
             @Override
             public void run() {
                 try {
-                    if (loadView != null) {
-                        loadView.setVisibility(View.VISIBLE);
+                    if (maskView != null) {
+                        maskView.setVisibility(View.VISIBLE);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

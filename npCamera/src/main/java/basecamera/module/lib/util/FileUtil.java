@@ -32,7 +32,7 @@ public class FileUtil {
 
     public static void init(Context context) {
         mContext = context;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
             parentPath = Environment.getExternalStorageDirectory();
         } else {
             parentPath = Environment.getExternalStorageDirectory();
@@ -42,7 +42,7 @@ public class FileUtil {
 
     public static String saveBitmap(String dir, String jpegName, Bitmap b) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
             saveToMedia(dir + File.separator + jpegName);
         }
 

@@ -24,4 +24,40 @@
         android:layout_centerInParent="true"
         android:visibility="gone" />
 
+    <RelativeLayout
+        android:id="@+id/rl_preview"
+        android:layout_width="120dp"
+        android:layout_height="145dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginBottom="150dp"
+        android:visibility="gone">
+
+        <me.panpf.sketch.SketchImageView
+            android:id="@+id/siv_preview"
+            android:layout_width="105dp"
+            android:scaleType="fitXY"
+            android:layout_height="130dp"
+            android:layout_marginTop="15dp" />
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="-15dp"
+            android:layout_toRightOf="@+id/siv_preview"
+            android:src="@mipmap/basecamera_icon_close" />
+
+    </RelativeLayout>
+
+
+    <View
+        android:id="@+id/maskView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:clickable="true"
+        android:visibility="gone" />
+
+
 </RelativeLayout>
